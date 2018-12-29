@@ -27,9 +27,9 @@ def main():
         if sentence.startswith('#id'):
             splitted_sentence = sentence.split(" ")
             sentence_id = splitted_sentence[1]
-        elif sentence.startswith("#text"):
-            splitted_sentence = sentence.split("#text")
-            whole_sentence = splitted_sentence[1]
+        elif sentence.startswith("#text:"):
+            #splitted_sentence = sentence.split("#text")
+            whole_sentence = sentence[6:]
         else:
             splitted_sentence = sentence.split('\t')
             if len(splitted_sentence) == 9:
@@ -40,7 +40,7 @@ def main():
             elif sentence == '': #new sentence
                 if place!= None and person != None and sentence_id!= None and whole_sentence!= None:
                     sentence_to_write = sentence_id + '\t' + person + '\t' + 'Live_In' + \
-                                        '\t' + place + '\t' + '( '+ whole_sentence + ')\n'
+                                        '\t' + place + '\t' + '('+ whole_sentence + ')\n'
                     output_file.write(sentence_to_write)
                     place = None
                     person = None

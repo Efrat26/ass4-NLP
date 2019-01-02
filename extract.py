@@ -23,6 +23,8 @@ def main():
     person = None
     sentence_id = None
     whole_sentence = None
+    person_relates_to_dict = {}  # addition - round 2
+    person_index = None
     for sentence in input_lines:
         if sentence.startswith('#id'):
             splitted_sentence = sentence.split(" ")
@@ -37,7 +39,22 @@ def main():
                     place = splitted_sentence[1]
                 elif splitted_sentence[-1] == 'PERSON':
                     person = splitted_sentence[1]
+                    person_index = int(splitted_sentence[0])
+                    if person not in person_relates_to_dict:
+                        relations = set()
+                        relations.add(int(splitted_sentence[5]))
+                        person_relates_to_dict[person] = relations
+                    else:
+                        person_relates_to_dict[person].add(int(splitted_sentence[5]))
             elif sentence == '': #new sentence
+                #find the persons that relates to the person selected and concat them
+                if person != None:
+                    new_person = ''
+                    for key in person_relates_to_dict:
+                        other_person_set = person_relates_to_dict[key]
+                        if person_index in other_person_set:
+                            new_person += key + ' '
+                    person = new_person + person
                 if place!= None and person != None and sentence_id!= None and whole_sentence!= None:
                     sentence_to_write = sentence_id + '\t' + person + '\t' + 'Live_In' + \
                                         '\t' + place + '\t' + '('+ whole_sentence + ')\n'
@@ -47,6 +64,8 @@ def main():
                     person = None
                     sentence_id = None
                     whole_sentence = None
+                person_relates_to_dict = {}  # addition - round 2
+                person_index = None
     #compare to the real relations
     try:
         gold_file_name = sys.argv[3]

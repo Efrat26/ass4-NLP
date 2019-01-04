@@ -41,7 +41,7 @@ def main():
                     place = splitted_sentence[1]
                 elif splitted_sentence[-1] == 'PERSON':
                     person = splitted_sentence[1]
-
+                    '''#changes for round2
                     person_index = int(splitted_sentence[0])
                     if person not in person_relates_to_dict:
                         relations = set()
@@ -49,9 +49,11 @@ def main():
                         person_relates_to_dict[person] = relations
                     else:
                         person_relates_to_dict[person].add(int(splitted_sentence[5]))
+                        '''
 
             elif sentence == '': #new sentence
                 #find the persons that relates to the person selected and concat them
+                '''#changes for round2
                 if person != None:
                     new_person = ''
                     for key in person_relates_to_dict:
@@ -59,6 +61,7 @@ def main():
                         if person_index in other_person_set:
                             new_person += key + ' '
                     person = new_person + person
+                    '''
                 if place!= None and person != None and sentence_id!= None and whole_sentence!= None:
                     sentence_to_write = sentence_id + '\t' + person + '\t' + 'Live_In' + \
                                         '\t' + place + '\t' + '('+ whole_sentence + ')\n'
@@ -70,7 +73,13 @@ def main():
                     whole_sentence = None
                 person_relates_to_dict = {}  # addition - round 2
                 person_index = None
-
+    ###try parser
+    ''''
+    parser = DependencyParser(nlp.vocab)
+    losses = {}
+    optimizer = nlp.begin_training()
+    parser.update([doc1, doc2], [gold1, gold2], losses=losses, sgd=optimizer)
+'''
 
 
 if __name__ == "__main__":

@@ -22,6 +22,8 @@ def main():
     predicted_lines_dict = defaultdict(set)
     gold_lines_dict = defaultdict(set)
     #preprocess: make a dictionary which maps a sentence num to the value:
+
+    num_of_all_predictions = len(predicted_lines)
     for line in predicted_lines:
         splitted_line = line.split('\t')
         if splitted_line[3].endswith('.'):#ignore names end with dot
@@ -58,13 +60,21 @@ def main():
             splitted_pred_line = line.split('\t')
             if splitted_pred_line[1].lower() == relation and line not in gold_lines_dict[key]: #precision mistake
                 num_of_precision_mistakes += 1
+
+    ''''
+    precision = num correct predictions / num all predictions
+    recall = num correct predictions / num of gold segments
+    F1 = precision*recall / precision + recall
+    '''
     #calculations:
-    accuracy = (float(num_of_predicted_correctly) / float(gold_num_of_lines_has_relation))*100.0
-    F1 = 2.0*((float(num_of_recall_mistakes*num_of_precision_mistakes))/(float(num_of_recall_mistakes+num_of_precision_mistakes)))
-    print("accuracy is: " + str(accuracy))
-    print("number of precision mistakes is: " + str(num_of_precision_mistakes))
-    print("number of recall mistakes is: " + str(num_of_recall_mistakes))
-    print("F1 is: " + str(F1))
+    precision = float(num_of_predicted_correctly) / float(num_of_all_predictions)
+    recall = float(num_of_predicted_correctly) / float(gold_num_of_lines_has_relation)
+    f1 = float(recall*precision) / float(recall + precision)
+    print("value of precision is: " + str(precision))
+    print("value of recall is: " + str(recall))
+    print("F1 is: " + str(f1))
+
+
 
 if __name__ == "__main__":
     main()

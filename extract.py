@@ -3,16 +3,18 @@ import sys
 def main():
     #get input file name & open it
     try:
-        input_file_name = sys.argv[1]
+        input_file_name = sys.argv[1]# input should be a file in the .processed form
     except(ValueError, IndexError):
         print("no input file given")
         input_file_name = 'Corpus.TRAIN.processed'
-        # get output file name & open it
-    try:
-        output_file_name = sys.argv[2]
-    except(ValueError, IndexError):
-        print("no output file given")
-        output_file_name = 'predicted_results'
+    #output file
+    output_file_name = 'predicted_results'
+    if input_file_name.lower().__contains__('train'):
+        output_file_name+= '_TRAIN'
+    elif input_file_name.lower().__contains__('dev'):
+        output_file_name += '_DEV'
+    else:
+        output_file_name += '_other'
     input_file = open(input_file_name, 'r')
     output_file = open(output_file_name, 'w')
     #read lines
@@ -39,6 +41,7 @@ def main():
                     place = splitted_sentence[1]
                 elif splitted_sentence[-1] == 'PERSON':
                     person = splitted_sentence[1]
+
                     person_index = int(splitted_sentence[0])
                     if person not in person_relates_to_dict:
                         relations = set()
@@ -46,6 +49,7 @@ def main():
                         person_relates_to_dict[person] = relations
                     else:
                         person_relates_to_dict[person].add(int(splitted_sentence[5]))
+
             elif sentence == '': #new sentence
                 #find the persons that relates to the person selected and concat them
                 if person != None:
@@ -66,27 +70,6 @@ def main():
                     whole_sentence = None
                 person_relates_to_dict = {}  # addition - round 2
                 person_index = None
-    #compare to the real relations
-    try:
-        gold_file_name = sys.argv[3]
-    except(ValueError, IndexError):
-        print("no gold label file given")
-        gold_file_name = 'TRAIN.annotations'
-    gold_label_file = open(gold_file_name, 'r')
-    gold_lines = gold_label_file.read().splitlines()
-    total_number_of_lines_with_livein = 0
-    correct_predicted_lines = 0
-    for line in gold_lines:
-        splitted_sentence = line.split('\t')
-        if splitted_sentence[2].lower() == 'live_in':
-            total_number_of_lines_with_livein += 1
-            if splitted_sentence[0] in result_dict:
-                temp = splitted_sentence[1] + '\t' + splitted_sentence[2] + '\t' + splitted_sentence[3]
-                if temp == result_dict[splitted_sentence[0]]:
-                    correct_predicted_lines += 1
-    accuracy = (float(correct_predicted_lines)/float(total_number_of_lines_with_livein))*100.0
-    print("accuracy percentage is: " + str(accuracy))
-
 
 
 

@@ -56,11 +56,11 @@ def main():
         current_pred_line_set = predicted_lines_dict[key]
         for line in current_pred_line_set:
             splitted_pred_line = line.split('\t')
-            if splitted_pred_line[1].lower() == relation and line not in gold_lines_dict[key]:
+            if splitted_pred_line[1].lower() == relation and line not in gold_lines_dict[key]: #precision mistake
                 num_of_precision_mistakes += 1
     #calculations:
     accuracy = (float(num_of_predicted_correctly) / float(gold_num_of_lines_has_relation))*100.0
-    F1 = 2.0*((float(num_of_recall_mistakes*num_of_precision_mistakes))*(float(num_of_recall_mistakes+num_of_precision_mistakes)))
+    F1 = 2.0*((float(num_of_recall_mistakes*num_of_precision_mistakes))/(float(num_of_recall_mistakes+num_of_precision_mistakes)))
     print("accuracy is: " + str(accuracy))
     print("number of precision mistakes is: " + str(num_of_precision_mistakes))
     print("number of recall mistakes is: " + str(num_of_recall_mistakes))

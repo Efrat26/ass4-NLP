@@ -24,9 +24,13 @@ def main():
     #preprocess: make a dictionary which maps a sentence num to the value:
     for line in predicted_lines:
         splitted_line = line.split('\t')
+        if splitted_line[3].endswith('.'):#ignore names end with dot
+            splitted_line[3] = (splitted_line[3])[:-1]
         predicted_lines_dict[splitted_line[0]].add(splitted_line[1] + '\t' + splitted_line[2] + '\t' + splitted_line[3])
     for line in gold_lines:
         splitted_line = line.split('\t')
+        if splitted_line[3].endswith('.'):#ignore names end with dot
+            splitted_line[3] = (splitted_line[3])[:-1]
         gold_lines_dict[splitted_line[0]].add(splitted_line[1] + '\t' + splitted_line[2] + '\t' + splitted_line[3])
     ''''    
     precision mistakes: relations that are in the predicted file but not in the gold file.
@@ -38,7 +42,7 @@ def main():
         current_gold_line_set = gold_lines_dict[key]
         for line in current_gold_line_set:
             splitted_gold_line = line.split('\t')
-            if splitted_gold_line[1].lower() == relation:#number of lines in the gold file has the relation we're intrested int
+            if splitted_gold_line[1].lower() == relation:#number of lines in the gold file has the relation we're intrested in
                 gold_num_of_lines_has_relation += 1
                 # check if the sentence is also in the predicted file using dictionary:
                 if key in predicted_lines_dict:

@@ -27,6 +27,9 @@ def main():
     whole_sentence = None
     person_relates_to_dict = {}  # addition - round 2
     person_index = None
+    place_relates_to_dict = {}  # addition - round 3
+    place_index = None
+
     for sentence in input_lines:
         if sentence.startswith('#id'):
             splitted_sentence = sentence.split(" ")
@@ -39,9 +42,18 @@ def main():
             if len(splitted_sentence) == 9:
                 if splitted_sentence[-1] == 'GPE':
                     place = splitted_sentence[1]
+                    # '''#changes for round3
+                    place_index = int(splitted_sentence[0])
+                    if place not in place_relates_to_dict:
+                        relations_place = set()
+                        relations_place.add(int(splitted_sentence[5]))
+                        place_relates_to_dict[place] = relations_place
+                    else:
+                        place_relates_to_dict[place].add(int(splitted_sentence[5]))
+                        # '''
                 elif splitted_sentence[-1] == 'PERSON':
                     person = splitted_sentence[1]
-                    '''#changes for round2
+                    #'''#changes for round2
                     person_index = int(splitted_sentence[0])
                     if person not in person_relates_to_dict:
                         relations = set()
@@ -49,11 +61,11 @@ def main():
                         person_relates_to_dict[person] = relations
                     else:
                         person_relates_to_dict[person].add(int(splitted_sentence[5]))
-                        '''
+                        #'''
 
             elif sentence == '': #new sentence
                 #find the persons that relates to the person selected and concat them
-                '''#changes for round2
+               # '''#changes for round2
                 if person != None:
                     new_person = ''
                     for key in person_relates_to_dict:
@@ -61,7 +73,17 @@ def main():
                         if person_index in other_person_set:
                             new_person += key + ' '
                     person = new_person + person
-                    '''
+                    #'''
+
+                    # '''#changes for round3
+                    if place != None:
+                        new_place = ''
+                        for key in place_relates_to_dict:
+                            other_place_set = place_relates_to_dict[key]
+                            if place_index in other_place_set:
+                                new_place += key + ' '
+                        place = new_place + place
+                        # '''
                 if place!= None and person != None and sentence_id!= None and whole_sentence!= None:
                     sentence_to_write = sentence_id + '\t' + person + '\t' + 'Live_In' + \
                                         '\t' + place + '\t' + '('+ whole_sentence + ')\n'
@@ -73,6 +95,8 @@ def main():
                     whole_sentence = None
                 person_relates_to_dict = {}  # addition - round 2
                 person_index = None
+                place_relates_to_dict = {}  # addition - round 3
+                place_index = None
     ###try parser
     ''''
     parser = DependencyParser(nlp.vocab)

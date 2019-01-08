@@ -67,11 +67,11 @@ def main():
     F1 = precision*recall / precision + recall
     '''
     #calculations:
-    precision = float(num_of_predicted_correctly) / float(num_of_all_predictions)
     recall = float(num_of_predicted_correctly) / float(gold_num_of_lines_has_relation)
-    f1 = float(recall*precision) / float(recall + precision)
-    print("value of precision is: " + str(precision))
+    precision = float(num_of_predicted_correctly) / float(num_of_all_predictions)
+    f1 = (2.0*float(recall*precision)) / float(recall + precision)
     print("value of recall is: " + str(recall))
+    print("value of precision is: " + str(precision))
     print("F1 is: " + str(f1))
 
 

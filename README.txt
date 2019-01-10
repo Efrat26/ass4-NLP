@@ -1,4 +1,6 @@
-﻿To run extract script you should enter a file of type .processed.
+﻿We used python 3 interpreter.
+
+To run extract script you should enter a file of type .processed.
 The script outputs a file with predictions in the annotations format. The name of the output file will be one of the followings:
 •	If the input file contains the word train in it, them the name will be predicted_results_TRAIN.
 •	If the input file contains the word dev in it, then the name will be predicted_results_dev.

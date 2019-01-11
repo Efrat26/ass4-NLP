@@ -4,7 +4,6 @@ from collections import defaultdict
 import operator
 
 gold_dict = {}
-
 actual_distances = defaultdict(int)
 actual_relation_distances = defaultdict(int)
 
@@ -146,7 +145,15 @@ def main():
         input_file_name = sys.argv[1]  # input should be a file in the .processed form
     except(ValueError, IndexError):
         print("no input file given")
-        input_file_name = 'Corpus.TRAIN.processed'
+        return
+    input_file = open(input_file_name, 'r')
+    # read lines
+    input_lines = input_file.read().splitlines()
+    # check if the file is in processed format
+    if input_lines[0][0] != '#':
+        print("please provide a processed format input file")
+        return
+        #input_file_name = 'Corpus.TRAIN.processed'
     # output file
     output_file_name = 'predicted_results'
     if input_file_name.lower().__contains__('train'):
@@ -155,13 +162,11 @@ def main():
         output_file_name += '_DEV'
     else:
         output_file_name += '_other'
-    input_file = open(input_file_name, 'r')
+
     output_file = open(output_file_name, 'w')
 
     create_gold_words_in_sentence(('TRAIN' in input_file_name))  # todo - the anotation file name is hardcoded!
 
-    # read lines
-    input_lines = input_file.read().splitlines()
     avg_distance = 0
     if ('TRAIN' in input_file_name):
         avg_distance = calculate_avd_distances(input_lines)
@@ -200,8 +205,8 @@ def main():
     word_to_real_classification = {}
 
     for sentence in input_lines:
-        if sentence.startswith('#id: sent521'):
-            print('hello')
+        #if sentence.startswith('#id: sent521'):
+         #   print('hello')
         if sentence.startswith('#id'):
             flag = ""
             # sentence_relation_person = []
@@ -306,7 +311,6 @@ def main():
                     print('person: ' + person + ' is a place!')
                 if place in word_to_real_classification and word_to_real_classification[place] != 'GPE':
                     print('place: ' + place + ' is a person!')
-
                 else:
 
                     for place1 in place_relates_to_dict:

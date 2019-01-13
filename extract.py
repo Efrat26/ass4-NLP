@@ -168,13 +168,17 @@ def main():
     create_gold_words_in_sentence(('TRAIN' in input_file_name))  # todo - the anotation file name is hardcoded!
 
     avg_distance = 0
+    # if you want to learn the avg - you should have the annotation file and run this part too.
+    #the avg will be saved in the threshold file.
+    '''
     if ('TRAIN' in input_file_name):
         avg_distance = calculate_avd_distances(input_lines)
-        threshold_file = open('theshold', 'w')
+        threshold_file = open('threshold', 'w')
         threshold_file.write(str(avg_distance))
     else:
-        threshold_file = open('theshold', 'r')
-        avg_distance = float(threshold_file.readline())
+    '''
+    threshold_file = open('threshold', 'r')
+    avg_distance = float(threshold_file.readline())
     result_dict = {}
     # split to sentences
     place = None

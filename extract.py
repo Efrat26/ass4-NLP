@@ -29,7 +29,7 @@ def create_gold_words_in_sentence(is_train):
             words = splitted_sentence[1].split(" ")
             words += splitted_sentence[3].split(" ")
             gold_dict[splitted_sentence[0]] += words
-    print("finishing extraxt words from gold live_in sentences")
+   # print("finishing extract words from gold live_in sentences")
 
 
 def calculate_avd_distances(input_lines):
@@ -85,8 +85,8 @@ def getWordsCOnnctedByHyphen(sentence, word_index):
     splitted_word = current_word.split('\t')
     next_sentence = sentence[word_ind_in_list + 1]
     splitted_next = next_sentence.split('\t')
-    if len(splitted_next) < 8:
-        print('hello')
+    #if len(splitted_next) < 8:
+     #   print('hello')
     if splitted_next[1] == '-':
         word = ''
         end_of_entity = int(splitted_word[5])
@@ -168,13 +168,17 @@ def main():
     create_gold_words_in_sentence(('TRAIN' in input_file_name))  # todo - the anotation file name is hardcoded!
 
     avg_distance = 0
+    # if you want to learn the avg - you should have the annotation file and run this part too.
+    #the avg will be saved in the threshold file.
+    '''
     if ('TRAIN' in input_file_name):
         avg_distance = calculate_avd_distances(input_lines)
-        threshold_file = open('theshold', 'w')
+        threshold_file = open('threshold', 'w')
         threshold_file.write(str(avg_distance))
     else:
-        threshold_file = open('theshold', 'r')
-        avg_distance = float(threshold_file.readline())
+    '''
+    threshold_file = open('threshold', 'r')
+    avg_distance = float(threshold_file.readline())
     result_dict = {}
     # split to sentences
     place = None
@@ -308,9 +312,11 @@ def main():
                 # if conj_error == False and place!= None and person != None and sentence_id!= None and whole_sentence!= None:
 
                 if person in word_to_real_classification and word_to_real_classification[person] != 'PERSON':
-                    print('person: ' + person + ' is a place!')
+                    #print('person: ' + person + ' is a place!')
+                    dummy = 1
                 if place in word_to_real_classification and word_to_real_classification[place] != 'GPE':
-                    print('place: ' + place + ' is a person!')
+                    #print('place: ' + place + ' is a person!')
+                    dummy = 1
                 else:
 
                     for place1 in place_relates_to_dict:

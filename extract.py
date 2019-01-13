@@ -135,7 +135,8 @@ def handleConjunction(whole_sentence, current_sentence_splitted):
                             # real_classifcation = splitted_temp[-1]
                             return [splitted_temp[1], real_classifcation]
                         else:
-                            print('should not happen')
+                            #print('should not happen')
+                        dummy = 1
     return None
 
 
@@ -165,9 +166,9 @@ def main():
 
     output_file = open(output_file_name, 'w')
 
-    create_gold_words_in_sentence(('TRAIN' in input_file_name))  # todo - the anotation file name is hardcoded!
+   # create_gold_words_in_sentence(('TRAIN' in input_file_name))  # todo - the anotation file name is hardcoded!
 
-    avg_distance = 0
+   # avg_distance = 0
     # if you want to learn the avg - you should have the annotation file and run this part too.
     #the avg will be saved in the threshold file.
     '''

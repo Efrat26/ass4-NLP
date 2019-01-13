@@ -136,7 +136,7 @@ def handleConjunction(whole_sentence, current_sentence_splitted):
                             return [splitted_temp[1], real_classifcation]
                         else:
                             #print('should not happen')
-                        dummy = 1
+                            dummy = 1
     return None
 
 
